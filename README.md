@@ -32,68 +32,103 @@ pip install Django==2.1.1
 ## Develop Django Application: 
 
 ### Create Django Project:
-```django-admin startproject ebdjangoproject```
+```
+django-admin startproject ebdjangoproject
+```
 
-Start Django Project:
-‘’’python manage.py runserver’’’
+### Start Django Project:
+```
+python manage.py runserver
+```
 
-Configuring Django Application for Elastic Beanstalk:
+## Configuring Django Application for Elastic Beanstalk:
 
-Define requirements:
-‘’’pip freeze > requirements.txt’’’
+### Define requirements:
+```
+pip freeze > requirements.txt
+```
 
-Create new directory:
-‘’’ mkdir .ebextensions’’’
-‘’’cd .ebextensions’’’
+### Create new directory:
+```
+mkdir .ebextensions
+cd .ebextensions
+```
 
-Add and edit configuration file:
-‘’’type nul > django.config”
-‘’’ option_settings:
+### Add and edit configuration file:
+```
+type nul > django.config
+```
+```
+option_settings:
  aws:elasticbeanstalk:container:python:
-  WSGIPath: ebdjangoproject/wsgi.py’’’
-‘’’deactivate’’’
+  WSGIPath: ebdjangoproject/wsgi.py
+```
+```
+deactivate
+```
 
-Deploy Django Site with Elastic Beanstalk: 
+## Deploy Django Site with Elastic Beanstalk: 
 
-Initialize Elastic Beanstalk Environment (eb currently only supports up to python 3.6):
-‘’’eb init -p python-3.6 django-eb-deploy’’’
+### Initialize Elastic Beanstalk Environment (eb currently only supports up to python 3.6):
+```
+eb init -p python-3.6 django-eb-deploy
+```
 
-Set up SSH:
-‘’’eb init’’’ 
+### Set up SSH:
+```
+eb init
+```
 
-Create and Configure Elastic Beanstalk Environment:
+### Create and Configure Elastic Beanstalk Environment:
 
-‘’’eb create ebdjango-project’’’
-‘’’ebstatus’’’
-‘’’eb deploy’’’
-‘’’eb open’’’
+```
+eb create ebdjango-project
+ebstatus
+eb deploy
+eb open
+```
 
-Initialize Django’s local database:
+### Initialize Django’s local database:
 
-‘’’%HOMEPATH%\ebd-virtual\Scripts\activate’’’
+```
+%HOMEPATH%\ebd-virtual\Scripts\activate’’’
+```
 
-Create Site Administrator:
+### Create Site Administrator:
 
-‘’’python manage.py migrate’’’
-‘’’python manage.py createsuperuser”
+```
+python manage.py migrate
+python manage.py createsuperuser
+```
 
-Create Static Assets:
+### Create Static Assets:
 
+```
 Add “STATIC_ROOT = ‘static’” to settings.py
-“’python manage.py collectstatic’’’
-‘’’deactivate’’’
+```
 
-Database Migration Config File:
+```
+python manage.py collectstatic
+```
 
-“Add configuration file named ‘db-migrate.config’ in /.ebextensions directory”
-‘’’container_commands:
+```
+deactivate
+```
+
+### Database Migration Config File:
+
+```
+Add configuration file named ‘db-migrate.config’ in /.ebextensions directory
+```
+```
+container_commands:
   01_migrate:
     command: "django-admin.py migrate"
     leader_only: true
 option_settings:
   aws:elasticbeanstalk:application:environment:
     DJANGO_SETTINGS_MODULE: ebdjangoproject.settings’’’
-
+```
 
 
 
