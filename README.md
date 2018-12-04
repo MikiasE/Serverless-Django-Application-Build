@@ -1,22 +1,99 @@
 # Serverless-Django-Application-Build
 
-Included Technologies: Elastic Beanstalk, Django
-Languages: Python
+Included Technologies: CMD, Django, Elastic Beanstalk, Virtualenv
+
+Languages: Python, YAML
 
 This project demonstrates the process to deploy an auto-generated Django website to an Elastic Beanstalk environment while running Python 3.7. The Elastic Beanstalk CLI will be used as the deployment mechanism.
 
 Project summary can be found here: https://www.mikiasemanuel.com/serverless-django-application-build
 
-Prerequisites:
+## Prerequisites:
 
-Python 3.6, pip, virtualenv, and awswebcli must all be installed prior starting the project.
+Python 3.7, pip, virtualenv, and awswebcli must all be installed prior starting the project. 
 
-Installation CMD can be found in “Pshell_PreReq.”
+## Set up Virtual Environment:
 
-Step 1 – Build Python Virtual Environment with Django:
+### Create virtual environment:
+```
+virtualenv %HOMEPATH%\ebd-virtual
+```
 
-Step 2 – Develop Django Application: 
+### Activate virtual environment:
+``` 
+%HOMEPATH%\eb2-virtual\Scripts\activate
+```
 
-Step 3 – Configuring Django Application for Elastic Beanstalk:
+### Install Django:
+```
+pip install Django==2.1.1
+```
 
-Step 4 – Configuring Elastic Beanstalk with AWS CLI: 
+## Develop Django Application: 
+
+### Create Django Project:
+```django-admin startproject ebdjangoproject```
+
+Start Django Project:
+‘’’python manage.py runserver’’’
+
+Configuring Django Application for Elastic Beanstalk:
+
+Define requirements:
+‘’’pip freeze > requirements.txt’’’
+
+Create new directory:
+‘’’ mkdir .ebextensions’’’
+‘’’cd .ebextensions’’’
+
+Add and edit configuration file:
+‘’’type nul > django.config”
+‘’’ option_settings:
+ aws:elasticbeanstalk:container:python:
+  WSGIPath: ebdjangoproject/wsgi.py’’’
+‘’’deactivate’’’
+
+Deploy Django Site with Elastic Beanstalk: 
+
+Initialize Elastic Beanstalk Environment (eb currently only supports up to python 3.6):
+‘’’eb init -p python-3.6 django-eb-deploy’’’
+
+Set up SSH:
+‘’’eb init’’’ 
+
+Create and Configure Elastic Beanstalk Environment:
+
+‘’’eb create ebdjango-project’’’
+‘’’ebstatus’’’
+‘’’eb deploy’’’
+‘’’eb open’’’
+
+Initialize Django’s local database:
+
+‘’’%HOMEPATH%\ebd-virtual\Scripts\activate’’’
+
+Create Site Administrator:
+
+‘’’python manage.py migrate’’’
+‘’’python manage.py createsuperuser”
+
+Create Static Assets:
+
+Add “STATIC_ROOT = ‘static’” to settings.py
+“’python manage.py collectstatic’’’
+‘’’deactivate’’’
+
+Database Migration Config File:
+
+“Add configuration file named ‘db-migrate.config’ in /.ebextensions directory”
+‘’’container_commands:
+  01_migrate:
+    command: "django-admin.py migrate"
+    leader_only: true
+option_settings:
+  aws:elasticbeanstalk:application:environment:
+    DJANGO_SETTINGS_MODULE: ebdjangoproject.settings’’’
+
+
+
+
