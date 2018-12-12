@@ -6,7 +6,7 @@ Languages: Python, YAML
 
 This project demonstrates the process to deploy an auto-generated Django website to an Elastic Beanstalk environment while running Python 3.7. The Elastic Beanstalk CLI will be used as the deployment mechanism.
 
-Project summary can be found here: https://www.mikiasemanuel.com/serverless-django-application-build
+Project walkthrough can be found here: https://www.mikiasemanuel.com/serverless-django-application-build
 
 ## Prerequisites:
 
